@@ -1,0 +1,24 @@
+h1 {
+  text-align: center;
+}
+
+.container {
+  margin: auto;
+  min-height: 85vh;
+  max-height: 85vh;
+  min-width: 85vh;
+  max-width: 85vh;
+  border: 3px solid black;
+  display: grid;
+  grid-template-rows: repeat(100, 1fr);
+  grid-template-columns: repeat(100, 1fr);
+  grid-gap: 0px;
+}
+
+/* .cell {
+  min-height: 1%;
+  min-width: 1%;
+  max-height: 1%;
+  max-width: 1%;
+  background-color: aqua;
+} */
