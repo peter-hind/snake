@@ -2,7 +2,7 @@ h1 {
   text-align: center;
 }
 
-.container {
+#container {
   margin: auto;
   min-height: 85vh;
   max-height: 85vh;
@@ -15,10 +15,20 @@ h1 {
   grid-gap: 0px;
 }
 
-/* .cell {
-  min-height: 1%;
-  min-width: 1%;
-  max-height: 1%;
-  max-width: 1%;
-  background-color: aqua;
-} */
+.snake {
+  background-color: brown;
+}
+
+.north-edge,
+.south-edge,
+.west-edge,
+.east-edge {
+  background-color: blueviolet;
+}
+
+.nw-corner,
+.ne-corner,
+.sw-corner,
+.se-corner {
+  background-color: blue;
+}
