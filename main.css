@@ -2,6 +2,12 @@ h1 {
   text-align: center;
 }
 
+#layout {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 #container {
   margin: auto;
   min-height: 85vh;
@@ -13,6 +19,9 @@ h1 {
   grid-template-rows: repeat(100, 1fr);
   grid-template-columns: repeat(100, 1fr);
   grid-gap: 0px;
+  background-image: url('img/snake.png');
+  background-size: cover;
+  background-position: center;
 }
 
 .snake {
@@ -23,9 +32,24 @@ h1 {
   background-color: green;
 }
 
-#score {
+p {
   text-align: center;
   margin: 20px auto;
   display: block;
   font-size: 2em;
+}
+
+#scoreboard,
+#buttonboard,
+#gameboard {
+  flex: 1;
+}
+
+#reset {
+  text-align: center;
+  margin: 20px auto;
+  display: block;
+  font-size: 1.5em;
+  padding: 0 30px;
+  display: none;
 }

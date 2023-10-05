@@ -1,10 +1,13 @@
 const snakeBox = document.getElementById('container')
+const tryAgain = document.getElementById('reset')
 const cells = []
-const intervalId = setInterval(nextCell, 60)
+let intervalId = setInterval(nextCell, 60)
 const scoreDisplay = document.getElementById('score')
+const highscoreDisplay = document.getElementById('highscore')
 let direction = 'east'
 let foodCell
 let score = 0
+let highScore = 0
 let gameOver = false
 
 for (let i = 0; i < 10000; i++) {
@@ -92,14 +95,7 @@ function processCell(nextCell, currentCell) {
     foodCell.classList.remove('food')
     foodPop()
   } else if (snake.includes(cells[nextCell])) {
-    for (let i = 0; i < snake.length; i++) {
-      snake[i].classList.remove('snake')
-    }
-    gameOver = true
-    clearInterval(intervalId)
-    foodCell.classList.remove('food')
-    snake = []
-    return
+    return gameIsOver()
   } else {
     let tail = snake.shift()
     tail.classList.remove('snake')
@@ -107,6 +103,36 @@ function processCell(nextCell, currentCell) {
   snake.push(cells[nextCell])
 
   displaySnake()
+}
+
+function gameIsOver() {
+  gameOver = true
+  for (let i = 0; i < snake.length; i++) {
+    snake[i].classList.remove('snake')
+  }
+  if (score > highScore) {
+    highScore = score
+    score = 0
+  }
+  clearInterval(intervalId)
+  foodCell.classList.remove('food')
+  snake = []
+  snakeBox.style.backgroundImage = "url('img/gameover.png')"
+  tryAgain.style.display = 'block'
+  updateScore()
+}
+
+function restartGame() {
+  direction = 'east'
+  gameOver = false
+  // nextCell = 5052
+  tryAgain.style.display = 'none'
+  snakeBox.style.backgroundImage = "url('img/snake.png')"
+  snake = [cells[5049], cells[5050], cells[5051]]
+  intervalId = setInterval(nextCell, 60)
+
+  displaySnake()
+  foodPop()
 }
 
 function getRandomNumber(min, max) {
@@ -128,11 +154,15 @@ function foodPop() {
   } else {
     foodPop()
   }
+  console.log(validFood)
 }
 
 function updateScore() {
   scoreDisplay.innerHTML = `Score: ${score}`
+  highscoreDisplay.innerHTML = `Highscore: ${highScore}`
 }
+
+tryAgain.onclick = restartGame
 
 document.addEventListener('keyup', function (e) {
   switch (e.key) {
