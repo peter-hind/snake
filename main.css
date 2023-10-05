@@ -19,16 +19,13 @@ h1 {
   background-color: brown;
 }
 
-.north-edge,
-.south-edge,
-.west-edge,
-.east-edge {
-  background-color: blueviolet;
+.food {
+  background-color: green;
 }
 
-.nw-corner,
-.ne-corner,
-.sw-corner,
-.se-corner {
-  background-color: blue;
+#score {
+  text-align: center;
+  margin: 20px auto;
+  display: block;
+  font-size: 2em;
 }

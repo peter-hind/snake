@@ -1,7 +1,11 @@
 const snakeBox = document.getElementById('container')
 const cells = []
-const intervalId = setInterval(nextCell, 75)
+const intervalId = setInterval(nextCell, 60)
+const scoreDisplay = document.getElementById('score')
 let direction = 'east'
+let foodCell
+let score = 0
+let gameOver = false
 
 for (let i = 0; i < 10000; i++) {
   const newCell = document.createElement('div')
@@ -49,14 +53,85 @@ function nextCell() {
       nextCell = cells.indexOf(currentCell) + 1
       break
   }
-  processCell(nextCell)
+  processCell(nextCell, currentCell)
 }
 
-function processCell(nextCell) {
+function processCell(nextCell, currentCell) {
+  if (
+    (currentCell.classList.contains('north-edge') ||
+      currentCell.classList.contains('nw-corner') ||
+      currentCell.classList.contains('ne-corner')) &&
+    direction === 'north'
+  ) {
+    nextCell = cells.indexOf(currentCell) + 9900
+  } else if (
+    (currentCell.classList.contains('south-edge') ||
+      currentCell.classList.contains('sw-corner') ||
+      currentCell.classList.contains('se-corner')) &&
+    direction === 'south'
+  ) {
+    nextCell = cells.indexOf(currentCell) - 9900
+  } else if (
+    (currentCell.classList.contains('east-edge') ||
+      currentCell.classList.contains('ne-corner') ||
+      currentCell.classList.contains('se-corner')) &&
+    direction === 'east'
+  ) {
+    nextCell = cells.indexOf(currentCell) - 99
+  } else if (
+    (currentCell.classList.contains('west-edge') ||
+      currentCell.classList.contains('nw-corner') ||
+      currentCell.classList.contains('sw-corner')) &&
+    direction === 'west'
+  ) {
+    nextCell = cells.indexOf(currentCell) + 99
+  }
+  if (cells[nextCell] === foodCell) {
+    score++
+    updateScore()
+    foodCell.classList.remove('food')
+    foodPop()
+  } else if (snake.includes(cells[nextCell])) {
+    for (let i = 0; i < snake.length; i++) {
+      snake[i].classList.remove('snake')
+    }
+    gameOver = true
+    clearInterval(intervalId)
+    foodCell.classList.remove('food')
+    snake = []
+    return
+  } else {
+    let tail = snake.shift()
+    tail.classList.remove('snake')
+  }
   snake.push(cells[nextCell])
-  let tail = snake.shift()
-  tail.classList.remove('snake')
+
   displaySnake()
+}
+
+function getRandomNumber(min, max) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+function foodPop() {
+  foodCell = cells[getRandomNumber(0, 9999)]
+  let validFood = true
+  for (let i = 0; i < snake.length; i++) {
+    if (snake[i] === foodCell) {
+      validFood = false
+    }
+  }
+  if (validFood) {
+    foodCell.classList.add('food')
+  } else {
+    foodPop()
+  }
+}
+
+function updateScore() {
+  scoreDisplay.innerHTML = `Score: ${score}`
 }
 
 document.addEventListener('keyup', function (e) {
@@ -85,3 +160,4 @@ document.addEventListener('keyup', function (e) {
 })
 
 displaySnake()
+foodPop()
