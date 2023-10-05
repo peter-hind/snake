@@ -1,6 +1,6 @@
 const snakeBox = document.getElementById('container')
 const cells = []
-const intervalId = setInterval(nextCell, 100)
+const intervalId = setInterval(nextCell, 75)
 let direction = 'east'
 
 for (let i = 0; i < 10000; i++) {
@@ -49,7 +49,39 @@ function nextCell() {
       nextCell = cells.indexOf(currentCell) + 1
       break
   }
-  processCell
+  processCell(nextCell)
 }
+
+function processCell(nextCell) {
+  snake.push(cells[nextCell])
+  let tail = snake.shift()
+  tail.classList.remove('snake')
+  displaySnake()
+}
+
+document.addEventListener('keyup', function (e) {
+  switch (e.key) {
+    case 'ArrowUp':
+      if (direction !== 'south') {
+        direction = 'north'
+      }
+      break
+    case 'ArrowDown':
+      if (direction !== 'north') {
+        direction = 'south'
+      }
+      break
+    case 'ArrowRight':
+      if (direction !== 'west') {
+        direction = 'east'
+      }
+      break
+    case 'ArrowLeft':
+      if (direction !== 'east') {
+        direction = 'west'
+      }
+      break
+  }
+})
 
 displaySnake()
